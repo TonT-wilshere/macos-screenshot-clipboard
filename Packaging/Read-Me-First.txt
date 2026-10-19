@@ -1,0 +1,18 @@
+SnapKeep · 截屏即贴
+
+中文
+将 SnapKeep.app 拖入“应用程序”，打开后点击“启用 / 更新截屏即贴”。
+首次使用请允许 SnapKeep 控制 System Events（系统事件）。
+照常用 ⌘⇧3 / ⌘⇧4 / ⌘⇧5 截屏：文件保存到桌面“截屏”，图片自动复制到剪贴板。
+可以退出 SnapKeep，自动复制继续生效。卸载请重新打开应用并点击“卸载并恢复设置”。
+本独立开源构建未经 Apple 公证。首次打开若被拦截，按 Apple 指引在“系统设置 → 隐私与安全性 → 仍要打开”放行。
+
+English
+Drag SnapKeep.app to Applications. Open it and click “Enable / Update SnapKeep”.
+Allow SnapKeep to control System Events when asked.
+Use ⌘⇧3 / ⌘⇧4 / ⌘⇧5 as usual. Screenshots are saved to Desktop/截屏 and copied to the clipboard.
+You can quit the app after setup. Reopen it to uninstall and restore the previous save settings.
+This independent open-source build is not Apple-notarized. If blocked, follow Apple's “Open Anyway” instructions in System Settings → Privacy & Security.
+
+https://github.com/TonT-wilshere/macos-screenshot-clipboard
+https://support.apple.com/en-us/102445

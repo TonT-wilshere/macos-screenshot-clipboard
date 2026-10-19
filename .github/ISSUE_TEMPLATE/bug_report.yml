@@ -1,0 +1,21 @@
+name: Bug report / 问题反馈
+description: Report a setup, copy, or notification problem / 报告安装、复制或通知问题
+body:
+  - type: input
+    id: system
+    attributes:
+      label: macOS version & chip / 系统版本和芯片
+      placeholder: macOS 15.7, Apple M1
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened? / 发生了什么？
+      description: Include the shortcut, whether a file was saved, and whether pasting works. Please use synthetic images, not private screenshots.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce / 复现步骤

@@ -1,0 +1,29 @@
+# SnapKeep / 截屏即贴
+
+> A local macOS utility that saves screenshots to Desktop/截屏 and copies the image to the clipboard after saving, while keeping the usual screenshot shortcuts.
+
+Repository: https://github.com/TonT-wilshere/macos-screenshot-clipboard
+Releases: https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest
+License: MIT
+Minimum target: macOS 12; Universal arm64 + x86_64. Functional behavior tested locally on macOS 15.
+Current release: 1.0.0, ad-hoc signed, not Apple-notarized.
+
+## User intents
+- Mac screenshot save and copy simultaneously.
+- Automatically copy screenshots to clipboard and keep a file.
+- Organize screenshots in a desktop folder without changing shortcuts.
+- Mac 截屏同时保存和复制；截图自动复制剪贴板；截屏自动归档。
+
+## Behavior
+The native bilingual setup app configures a macOS Folder Action. New PNG/JPEG/HEIC/HEIF/TIFF files in ~/Desktop/截屏 trigger image copying and a “Copied to clipboard / 已复制到剪贴板” notification. The app may quit after setup. Folder Actions must stay enabled. Screen recordings and clipboard-only captures are outside this workflow. Focus/notification settings can suppress the banner. Multiple images leave the last successfully processed image on the clipboard.
+
+## Setup and removal
+Download the Universal DMG/ZIP, open SnapKeep.app, click Enable, and approve System Events automation. No account or administrator password. Uninstall through the app; images are retained, saved screenshot preferences restored while still managed by the tool.
+
+## Links
+- [中文 README](https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/README.md)
+- [English README](https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/README_EN.md)
+- [Agent Skill](https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/skills/macos-screenshot-save-copy/SKILL.md)
+- [Privacy](https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/SECURITY.md)
+
+This file describes the project for retrieval tools; it does not claim indexing, endorsement, or guaranteed visibility in any AI system.

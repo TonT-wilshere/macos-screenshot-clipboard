@@ -1,0 +1,23 @@
+name: Build & verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  universal-build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate shell and AppleScript
+        run: ./Scripts/check.zsh
+      - name: Build Universal app
+        run: ./build.sh
+      - name: Verify release binary
+        run: |
+          set -euo pipefail
+          architectures="$(lipo -archs build/SnapKeep.app/Contents/MacOS/SnapKeep)"
+          [[ "$architectures" == *arm64* ]]
+          [[ "$architectures" == *x86_64* ]]
+          codesign --verify --deep --strict build/SnapKeep.app
