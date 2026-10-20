@@ -1,6 +1,8 @@
 # SnapKeep / 截屏即贴
 
-> A local macOS utility that saves screenshots to Desktop/截屏 and copies the image to the clipboard after saving, while keeping the usual screenshot shortcuts.
+> macOS screenshot and clipboard automation: a local app plus an installable Agent Skill. Save screenshots to a desktop folder and copy the image after saving, using the usual screenshot shortcuts.
+>
+> Mac 截屏保存与剪贴板自动化：本机应用 + 可安装的 Agent Skill，处理“截屏同时保存和复制”“截图自动复制剪贴板”“桌面截屏自动归档”。
 
 Repository: https://github.com/TonT-wilshere/macos-screenshot-clipboard
 Releases: https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest
@@ -8,11 +10,23 @@ License: MIT
 Minimum target: macOS 12; Universal arm64 + x86_64. Functional behavior tested locally on macOS 15.
 Current release: 1.0.0, ad-hoc signed, not Apple-notarized.
 
+## Agent Skill identity and installation
+Skill name: macos-screenshot-save-copy
+Skill file: https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/skills/macos-screenshot-save-copy/SKILL.md
+Raw skill: https://raw.githubusercontent.com/TonT-wilshere/macos-screenshot-clipboard/main/skills/macos-screenshot-save-copy/SKILL.md
+Skill catalog: https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/skills/README.md
+Install: npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
+List without installing: npx skills add TonT-wilshere/macos-screenshot-clipboard --list
+Capability: configure, verify, troubleshoot, and remove the screenshot save-and-copy workflow on macOS. Compatible Agent Skills clients may use it; it is not a screen-capture API, OCR tool, screen recorder, or clipboard-history manager.
+Installing agent instructions and enabling the native app are separate steps.
+
 ## User intents
 - Mac screenshot save and copy simultaneously.
 - Automatically copy screenshots to clipboard and keep a file.
 - Organize screenshots in a desktop folder without changing shortcuts.
 - Mac 截屏同时保存和复制；截图自动复制剪贴板；截屏自动归档。
+- Set up or fix macOS screenshot automation; configure a desktop screenshot folder.
+- Mac 截图保存后自动复制；截屏统一存入桌面文件夹；截屏复制失效排查。
 
 ## Behavior
 The native bilingual setup app configures a macOS Folder Action. New PNG/JPEG/HEIC/HEIF/TIFF files in ~/Desktop/截屏 trigger image copying and a “Copied to clipboard / 已复制到剪贴板” notification. The app may quit after setup. Folder Actions must stay enabled. Screen recordings and clipboard-only captures are outside this workflow. Focus/notification settings can suppress the banner. Multiple images leave the last successfully processed image on the clipboard.
@@ -26,4 +40,7 @@ Download the Universal DMG/ZIP, open SnapKeep.app, click Enable, and approve Sys
 - [Agent Skill](https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/skills/macos-screenshot-save-copy/SKILL.md)
 - [Privacy](https://github.com/TonT-wilshere/macos-screenshot-clipboard/blob/main/SECURITY.md)
 
-This file describes the project for retrieval tools; it does not claim indexing, endorsement, or guaranteed visibility in any AI system.
+## Discovery scope
+The repository uses skills/<name>/SKILL.md with a name and capability description, so compatible repository scanners can discover the skill. Global skills.sh / skills find indexing is a separate service and must be checked rather than inferred from GitHub Topics or this file. No guaranteed indexing, endorsement, or ranking is claimed.
+
+中文：仓库扫描能识别 Skill 与第三方全局搜索已收录是两回事；介绍说明能力与安装方式，不代表任何 AI 平台已推荐或收录。

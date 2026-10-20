@@ -8,7 +8,9 @@
 
 Keep your usual Mac screenshot shortcuts. Get the file and the clipboard image together.
 
-[中文](README.md) · **[Download for macOS](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest)** · [Report an issue](https://github.com/TonT-wilshere/macos-screenshot-clipboard/issues)
+**macOS screenshot automation + an installable Agent Skill for compatible Codex and Claude Code workflows.**
+
+[中文](README.md) · [Agent Skill](#agent-skill-installation) · **[Download for macOS](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest)** · [Report an issue](https://github.com/TonT-wilshere/macos-screenshot-clipboard/issues)
 
 ![macOS](https://img.shields.io/badge/macOS-12%2B-111827?logo=apple)
 ![Universal](https://img.shields.io/badge/Apple_Silicon_%2B_Intel-Universal-2563eb)
@@ -20,6 +22,18 @@ Keep your usual Mac screenshot shortcuts. Get the file and the clipboard image t
 [![Stars](https://img.shields.io/github/stars/TonT-wilshere/macos-screenshot-clipboard?style=social)](https://github.com/TonT-wilshere/macos-screenshot-clipboard/stargazers)
 
 </div>
+
+## Agent Skill installation
+
+**`macos-screenshot-save-copy`** helps agents configure and troubleshoot **macOS screenshot automation**: save screenshots in a desktop folder, automatically copy images to the clipboard, preserve familiar shortcuts, and uninstall cleanly.
+
+```bash
+npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
+```
+
+Use it for “save and copy Mac screenshots,” “screenshot to clipboard,” “automatically copy screenshots,” and “organize screenshots in a desktop folder.” Installing this skill adds agent instructions; the app must still be configured to enable automatic copying.
+
+[Read SKILL.md](skills/macos-screenshot-save-copy/SKILL.md) · [Skill catalog](skills/README.md) · [Machine-readable project summary](llms.txt)
 
 ## Take a screenshot. Then copy it again?
 
@@ -84,16 +98,6 @@ open build/SnapKeep.app
 ```
 
 `./package.sh` creates Universal DMG/ZIP packages and SHA-256 checksums. CI validates AppleScript compilation, code-signature structure, and both `arm64` / `x86_64` slices. See [NOTARIZATION.md](NOTARIZATION.md) for signing and notarization.
-
-## Agent Skill
-
-[macos-screenshot-save-copy](skills/macos-screenshot-save-copy/SKILL.md) helps compatible agents handle “save and copy a Mac screenshot” requests, including setup, permissions, verification, and uninstall. It can be used by compatible Codex, Claude Code, and other Agent Skills clients.
-
-```bash
-npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
-```
-
-Manual installation of the skill folder is also possible using your client's instructions. [llms.txt](llms.txt) provides a concise project summary for retrieval tools.
 
 ## Privacy & implementation
 

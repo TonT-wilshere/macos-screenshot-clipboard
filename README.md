@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="Assets/demo.gif" alt="SnapKeep 演示：Mac 截屏自动保存到桌面截屏文件夹，同时复制到剪贴板，随后直接粘贴" width="960">
+<img src="Assets/demo.gif" alt="SnapKeep macOS screenshot automation: save screenshots and copy images to clipboard / Mac 截屏自动保存并复制" width="960">
 
 # SnapKeep · 截屏即贴
 
@@ -8,7 +8,11 @@
 
 用熟悉的 Mac 截屏快捷键，自动存入桌面文件夹，随手 ⌘V 粘贴。
 
-[English](README_EN.md) · **[下载最新版](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest)** · [反馈问题](https://github.com/TonT-wilshere/macos-screenshot-clipboard/issues)
+**One screenshot. Saved and copied.**
+
+macOS screenshot automation with an installable Agent Skill: keep the file, copy the image, and paste with ⌘V. Works with compatible Codex and Claude Code skill workflows.
+
+[中文介绍](#截完屏还要再复制一次) · **[English ↓](#english)** · [Full English README](README_EN.md) · [Agent Skill / 技能安装](#agent-skill--技能安装) · **[Download / 下载](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest)**
 
 ![macOS](https://img.shields.io/badge/macOS-12%2B-111827?logo=apple)
 ![Universal](https://img.shields.io/badge/Apple_Silicon_%2B_Intel-Universal-2563eb)
@@ -20,6 +24,22 @@
 [![Stars](https://img.shields.io/github/stars/TonT-wilshere/macos-screenshot-clipboard?style=social)](https://github.com/TonT-wilshere/macos-screenshot-clipboard/stargazers)
 
 </div>
+
+## Agent Skill / 技能安装
+
+**`macos-screenshot-save-copy` — Mac 截屏保存与剪贴板自动化 / macOS screenshot save-and-copy automation.**
+
+这份 Agent Skill 帮助兼容的 Codex、Claude Code 等代理安装、配置和排查 SnapKeep，处理“Mac 截屏同时保存和复制”“截图自动复制到剪贴板”“截屏自动存入桌面文件夹”等请求。
+
+The skill helps compatible agents set up and troubleshoot **macOS screenshot automation**, **save and copy screenshots**, and **automatically copy screenshots to clipboard** while keeping an image file. It covers screenshot-folder setup, System Events permissions, image-data verification, and uninstall/restore.
+
+```bash
+npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
+```
+
+安装的是代理的操作说明；启用自动复制仍需按 Skill 指引配置 SnapKeep 应用。Installing the skill adds agent instructions; enabling screenshot copying still requires SnapKeep setup.
+
+[查看 SKILL.md / Read the skill](skills/macos-screenshot-save-copy/SKILL.md) · [技能目录 / Skill catalog](skills/README.md) · [AI 可读项目摘要 / Retrieval summary](llms.txt)
 
 ## 截完屏，还要再复制一次？
 
@@ -96,16 +116,6 @@ open build/SnapKeep.app
 
 `./package.sh` 生成 Universal DMG、ZIP 和 SHA-256。构建包含 `arm64 + x86_64`，CI 检查 AppleScript 编译、签名结构和双架构。有关签名/公证见 [NOTARIZATION.md](NOTARIZATION.md)。
 
-## AI Agent Skill
-
-仓库提供 [macos-screenshot-save-copy](skills/macos-screenshot-save-copy/SKILL.md)，供支持 Agent Skills 的工具处理“Mac 截屏同时保存和复制”“截图自动进剪贴板”等真实需求。它说明安装、权限、验证和卸载，帮助代理正确操作，适用于 Codex、Claude Code 等兼容工具。
-
-```bash
-npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
-```
-
-也可以按所用工具的说明手动安装该目录。给检索工具的项目摘要见 [llms.txt](llms.txt)。
-
 ## 隐私与实现
 
 原生 Swift/AppKit 界面负责配置，AppleScript 文件夹操作监听新图片，AppKit 把图片数据写入系统剪贴板，再发一个系统通知。没有后台网络服务、管理员 helper 或额外 LaunchAgent；关闭设置窗口后由 macOS 自带调度器运行规则。
@@ -117,3 +127,54 @@ npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot
 [报告问题](https://github.com/TonT-wilshere/macos-screenshot-clipboard/issues) · [贡献说明](CONTRIBUTING.md) · [MIT License](LICENSE)
 
 如果它替你省下了反复找文件、再复制的一步，欢迎点个 **Star**，也把下载链接发给有同样习惯的朋友。⭐
+
+## English
+
+### SnapKeep: macOS screenshots saved and copied together
+
+SnapKeep is a local macOS screenshot utility with a companion **Agent Skill** for screenshot and clipboard automation. Take a screenshot with your usual `⌘⇧3`, `⌘⇧4`, or `⌘⇧5` shortcut. The image is saved to `Desktop/截屏` and copied to the clipboard after saving, ready to paste into a chat, note, bug report, or AI conversation.
+
+macOS normally saves a screenshot as a file; adding Control copies it instead of saving it. SnapKeep provides the combined save-and-copy workflow without adding another screenshot shortcut.
+
+### Features
+
+- Save the image file and automatically copy image data to the clipboard.
+- Show a “Copied to clipboard” notification without a viewer prompt.
+- Keep familiar screenshot shortcuts and organize files in one desktop folder.
+- Use a native Chinese/English setup UI; quit it after configuration while macOS Folder Actions continues working.
+- Support Apple Silicon and Intel in one Universal build targeting macOS 12+; functional behavior has been verified on macOS 15.
+- Process images locally, without an account, upload, or telemetry.
+- Uninstall while keeping all screenshots and restoring pre-install settings where still managed by SnapKeep.
+
+### Download & enable
+
+1. Download the Universal DMG or ZIP from [Releases](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest).
+2. Move `SnapKeep.app` to Applications and open it.
+3. Click **Enable / Update SnapKeep** and allow **System Events** automation.
+4. Capture with `⌘⇧4`, wait for the image to save, then paste with `⌘V`.
+
+The current release is not Apple-notarized. If first launch is blocked, follow [Apple's Open Anyway instructions](https://support.apple.com/en-us/102445). No administrator password is needed for screenshot configuration.
+
+### Install the Agent Skill
+
+```bash
+npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
+```
+
+The companion skill teaches compatible agents how to install, configure, verify, troubleshoot, and remove this workflow. It is intended for requests such as “save and copy Mac screenshots,” “automatically copy screenshots to clipboard,” and “organize screenshots in a desktop folder.” Skill installation and app setup are separate steps.
+
+To check repository discovery without installing:
+
+```bash
+npx skills add TonT-wilshere/macos-screenshot-clipboard --list
+```
+
+### Behavior and privacy
+
+Copying begins when the image file is saved; the macOS floating thumbnail may delay saving. New PNG/JPEG/HEIC/HEIF/TIFF images in the folder trigger copying, including manually added images. Recordings are ignored. Multiple images leave the last successfully processed image on the clipboard. Focus and notification settings may hide the success banner without preventing copying.
+
+The tool uses Apple's Folder Actions and AppKit. It uploads no images and stores no clipboard history. macOS Universal Clipboard and other clipboard apps still behave according to your settings. Uninstall respects a different screenshot destination you selected later.
+
+[Full English documentation](README_EN.md) · [Agent Skill](skills/macos-screenshot-save-copy/SKILL.md) · [Build instructions](#从源码构建) · [Security](SECURITY.md) · [MIT License](LICENSE)
+
+If SnapKeep saves you a step, a **Star** helps other Mac users find it. ⭐

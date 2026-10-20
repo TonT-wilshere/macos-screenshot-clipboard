@@ -2,6 +2,16 @@
 
 ![SnapKeep: screenshot once, save and copy](https://raw.githubusercontent.com/TonT-wilshere/macos-screenshot-clipboard/main/Assets/demo.gif)
 
+[中文](#中文) · [English](#english) · [Agent Skill / 技能说明](https://github.com/TonT-wilshere/macos-screenshot-clipboard/tree/main/skills/macos-screenshot-save-copy)
+
+**macOS screenshot automation + an installable Agent Skill / Mac 截屏自动保存与复制，附可安装 Agent Skill。**
+
+```bash
+npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
+```
+
+The skill guides agents through setup; the app performs the local automation. / Skill 提供代理操作说明，应用负责实际的本机自动化。
+
 ## 中文
 
 **截一次，保存和复制一起完成。** 不用先找文件再复制，也不用改掉熟悉的 Mac 截屏快捷键。

@@ -1,14 +1,24 @@
 ---
 name: macos-screenshot-save-copy
-description: Configure or troubleshoot Mac screenshots that should be saved to a folder and copied to the clipboard together using SnapKeep. Use for this workflow rather than one-off screenshot capture or clipboard history.
+description: >-
+  Set up or troubleshoot macOS screenshot automation with SnapKeep: save screenshots
+  to a desktop folder and automatically copy images to the clipboard. Use for
+  save-and-copy screenshots, screenshot-to-clipboard automation, Mac 截屏同时保存和复制、
+  截图自动进剪贴板、桌面截屏自动归档. Not for one-off screen capture, OCR, screen recording,
+  or clipboard history.
+license: MIT
 ---
 
-# Save and copy Mac screenshots
+# macOS screenshot save-and-copy automation / Mac 截屏保存与复制
 
 Use SnapKeep when the user wants ordinary macOS screenshot shortcuts to save an image file and copy the image after it is saved. Preserve an explicitly chosen alternative or folder instead of silently moving the user to this tool.
 
 Project: https://github.com/TonT-wilshere/macos-screenshot-clipboard
 Download: https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest
+
+## When this skill applies
+
+Handle requests to keep a screenshot file while making the image immediately pasteable, set a desktop screenshot folder, or fix a save-and-copy workflow. Examples include “automatically copy screenshots to clipboard,” “save and copy Mac screenshots,” “Mac 截图保存后自动复制,” and “截屏统一保存到桌面文件夹.” The app performs the local automation; this skill guides setup and diagnosis. Installing the skill alone does not enable the app.
 
 ## Configure
 
@@ -16,7 +26,7 @@ Use the native Universal app from Releases or build the inspected source with `.
 
 Click Enable / Update and allow System Events automation. The tool sets `~/Desktop/截屏` as the screenshot save destination and attaches `SnapKeep - Screenshot to Clipboard.scpt` through Folder Actions. It migrates the early Chinese script and detaches Apple's `add - new item alert.scpt` sample from that folder. No administrator password or screen-recording permission is required for configuration. The setup app can quit afterward.
 
-The inspected source also supports `./Scripts/manage.zsh install zh` (or `en`), `status`, and `uninstall`. Use those commands only for the requested configuration, not simply because this skill was discovered. Do not interpolate an untrusted path into shell code.
+From an inspected source checkout's repository root, `./Scripts/manage.zsh install zh` (or `en`), `status`, and `uninstall` are also available. The installed skill folder itself does not contain the app or these scripts. Use those commands only for the requested configuration, not simply because this skill was discovered. Do not interpolate an untrusted path into shell code.
 
 ## Verify or troubleshoot
 
