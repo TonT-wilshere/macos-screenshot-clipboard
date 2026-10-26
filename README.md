@@ -1,18 +1,20 @@
 <div align="center">
 
-<img src="Assets/demo.gif" alt="SnapKeep macOS screenshot automation: save screenshots and copy images to clipboard / Mac 截屏自动保存并复制" width="960">
+# SnapKeep · Mac 截屏即贴
 
-# SnapKeep · 截屏即贴
+**Mac 截图，截完直接粘贴。**
 
-**截一次，保存和复制一起完成。**
+按 **⌘⇧3（Command + Shift + 3）** 使用 Mac 系统全屏截屏。<br>
+SnapKeep 在图片保存后**自动复制到剪贴板**，你再按 **⌘V** 就能粘贴。
 
-用熟悉的 Mac 截屏快捷键，自动存入桌面文件夹，随手 ⌘V 粘贴。
+截图文件也会保留在 `桌面/截屏`。适用于 **Mac / macOS 12+**，不是 Windows 工具。
 
-**One screenshot. Saved and copied.**
+**Take a Mac screenshot. Then just paste it.**<br>
+Press **⌘⇧3** for a native macOS full-screen screenshot. SnapKeep copies the image after saving; press **⌘V** to paste. The file stays in `Desktop/截屏`.
 
-macOS screenshot automation with an installable Agent Skill: keep the file, copy the image, and paste with ⌘V. Works with compatible Codex and Claude Code skill workflows.
+**[下载 Mac 版 / Download for macOS](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest)** · [怎么用](#怎么用两个动作就够了) · **[English ↓](#english)** · [Full English README](README_EN.md) · [Agent Skill / 技能安装](#agent-skill--技能安装)
 
-[中文介绍](#截完屏还要再复制一次) · **[English ↓](#english)** · [Full English README](README_EN.md) · [Agent Skill / 技能安装](#agent-skill--技能安装) · **[Download / 下载](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest)**
+<img src="Assets/demo.gif" alt="Mac 原生 ⌘⇧3 全屏截屏 → SnapKeep 在保存后自动复制图片 → ⌘V 粘贴 / Native macOS screenshot → auto-copy image → paste. Illustrated workflow, not a screen recording." width="960">
 
 ![macOS](https://img.shields.io/badge/macOS-12%2B-111827?logo=apple)
 ![Universal](https://img.shields.io/badge/Apple_Silicon_%2B_Intel-Universal-2563eb)
@@ -25,29 +27,16 @@ macOS screenshot automation with an installable Agent Skill: keep the file, copy
 
 </div>
 
-## Agent Skill / 技能安装
+## 怎么用？两个动作就够了
 
-**`macos-screenshot-save-copy` — Mac 截屏保存与剪贴板自动化 / macOS screenshot save-and-copy automation.**
+启用后，仍然用苹果原生快捷键截屏，不用学习新的截屏工具。
 
-这份 Agent Skill 帮助兼容的 Codex、Claude Code 等代理安装、配置和排查 SnapKeep，处理“Mac 截屏同时保存和复制”“截图自动复制到剪贴板”“截屏自动存入桌面文件夹”等请求。
+1. **按 `⌘⇧3` 全屏截屏。** macOS 生成图片，SnapKeep 在文件保存后自动把**图片本身**复制到剪贴板。
+2. **看到“已复制到剪贴板”提示后，按 `⌘V` 粘贴。** 发到接受图片的聊天、笔记、文档或 AI 对话中。
 
-The skill helps compatible agents set up and troubleshoot **macOS screenshot automation**, **save and copy screenshots**, and **automatically copy screenshots to clipboard** while keeping an image file. It covers screenshot-folder setup, System Events permissions, image-data verification, and uninstall/restore.
+截图发微信、记笔记、反馈 Bug，不用再去桌面找图、打开图片、手动复制。原始图片仍保存在 `桌面/截屏`，之后也找得到。
 
-```bash
-npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
-```
-
-安装的是代理的操作说明；启用自动复制仍需按 Skill 指引配置 SnapKeep 应用。Installing the skill adds agent instructions; enabling screenshot copying still requires SnapKeep setup.
-
-[查看 SKILL.md / Read the skill](skills/macos-screenshot-save-copy/SKILL.md) · [技能目录 / Skill catalog](skills/README.md) · [AI 可读项目摘要 / Retrieval summary](llms.txt)
-
-## 截完屏，还要再复制一次？
-
-截图给朋友、贴进笔记、向开发者反馈 Bug，或者把界面交给 AI 看。我们经常既想留下一份图片，又想立刻粘贴出去。
-
-macOS 的默认快捷键把截屏存成文件；加上 Control 可以直接复制，但不会保留文件。SnapKeep 把这两件事连起来：**照常截屏 → 文件自动保存 → 图片自动复制 → 直接粘贴**。
-
-它不增加新的截屏快捷键。你原来怎么截，现在还怎么截。
+**截屏由 macOS 完成；SnapKeep 只负责保存后的自动复制。** 它不提供框选界面，不替换系统截屏，也不增加截屏快捷键。上方演示使用的是 `⌘⇧3` **全屏截屏**，不是拖动框选。
 
 ## 能做什么
 
@@ -55,7 +44,7 @@ macOS 的默认快捷键把截屏存成文件；加上 Control 可以直接复�
 | --- | --- |
 | 留住文件，也能马上粘贴 | 截屏保存到 `桌面/截屏` 后复制图片本身 |
 | 不想反复点确认 | 成功后只发“已复制到剪贴板”通知，不打开查看器 |
-| 快捷键已经用习惯 | 保持 `⌘⇧3`、`⌘⇧4`、`⌘⇧5` |
+| 快捷键已经用习惯 | 示例使用 `⌘⇧3` 全屏截屏，不新增快捷键 |
 | 桌面越来越乱 | 新截屏统一收进一个文件夹 |
 | 给朋友安装 | 中英文原生设置界面，Universal 安装包 |
 | 不想让小工具一直占着 Dock | 配置好即可退出，系统文件夹操作继续处理截屏 |
@@ -69,7 +58,7 @@ macOS 的默认快捷键把截屏存成文件；加上 Control 可以直接复�
 1. 从 [Releases](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest) 下载 **`SnapKeep-1.0.0-macOS-Universal.dmg`**，或选择 ZIP。
 2. 把 `SnapKeep.app` 拖入“应用程序”，打开它。
 3. 点击“启用 / 更新截屏即贴”。首次启用时允许 SnapKeep 控制 **System Events（系统事件）**。
-4. 用 `⌘⇧4` 截一张图，等图片保存后按 `⌘V` 粘贴。
+4. 按 `⌘⇧3` 全屏截屏，等“已复制到剪贴板”提示后，按 `⌘V` 粘贴。
 
 支持 Apple Silicon 和 Intel，最低 macOS 12。构建已在 macOS 15 上验证；其他系统版本欢迎反馈。
 
@@ -82,6 +71,7 @@ macOS 的默认快捷键把截屏存成文件；加上 Control 可以直接复�
 ## 使用边界
 
 - 自动复制发生在**图片文件保存后**。macOS 浮动缩略图尚未保存时可能需要等几秒；可以在 `⌘⇧5 → 选项` 中按自己的偏好关闭浮动缩略图。
+- `⌘⇧3` 是本页演示的原生全屏截屏操作。如果你使用系统其他截屏方式，只要图片仍保存到同一文件夹，也会触发复制；SnapKeep 自身不提供选区或录屏功能。
 - 不要额外按 Control；系统的 Control 截屏组合键只复制、不保存。
 - 监听 `桌面/截屏` 中新增的 PNG、JPEG、HEIC/HEIF、TIFF。手动放入该文件夹的这些图片也会触发复制；录屏不会复制。
 - 多张图一起到达时，剪贴板保留最后成功处理的图片。它不是剪贴板历史工具。
@@ -101,6 +91,24 @@ macOS 的默认快捷键把截屏存成文件；加上 Control 可以直接复�
 **每次弹出“查看新项目”？**
 
 那通常是 Apple 示例 `add - new item alert.scpt`。SnapKeep 安装时会从此截屏目录解绑这个示例，并迁移本工具早期的中文脚本。
+
+## Agent Skill / 技能安装
+
+**`macos-screenshot-save-copy` — Mac 截屏保存与剪贴板自动化 / macOS screenshot save-and-copy automation.**
+
+普通 Mac 用户直接下载上面的应用即可；下面是给使用兼容 AI 代理的用户的另一种配置入口。
+
+这份 Agent Skill 帮助兼容的 Codex、Claude Code 等代理安装、配置和排查 SnapKeep，处理“Mac 截屏同时保存和复制”“截图自动复制到剪贴板”“截屏自动存入桌面文件夹”等请求。
+
+The skill helps compatible agents set up and troubleshoot **macOS screenshot automation**, **save and copy screenshots**, and **automatically copy screenshots to clipboard** while keeping an image file. It covers screenshot-folder setup, System Events permissions, image-data verification, and uninstall/restore.
+
+```bash
+npx skills add TonT-wilshere/macos-screenshot-clipboard --skill macos-screenshot-save-copy -g
+```
+
+安装的是代理的操作说明；启用自动复制仍需按 Skill 指引配置 SnapKeep 应用。Installing the skill adds agent instructions; enabling screenshot copying still requires SnapKeep setup.
+
+[查看 SKILL.md / Read the skill](skills/macos-screenshot-save-copy/SKILL.md) · [技能目录 / Skill catalog](skills/README.md) · [AI 可读项目摘要 / Retrieval summary](llms.txt)
 
 ## 从源码构建
 
@@ -130,11 +138,11 @@ open build/SnapKeep.app
 
 ## English
 
-### SnapKeep: macOS screenshots saved and copied together
+### SnapKeep for Mac: take a screenshot, then paste it
 
-SnapKeep is a local macOS screenshot utility with a companion **Agent Skill** for screenshot and clipboard automation. Take a screenshot with your usual `⌘⇧3`, `⌘⇧4`, or `⌘⇧5` shortcut. The image is saved to `Desktop/截屏` and copied to the clipboard after saving, ready to paste into a chat, note, bug report, or AI conversation.
+Press **`⌘⇧3` (Command + Shift + 3)** to take a full-screen screenshot with native **macOS**. SnapKeep automatically copies the image to your clipboard **after the file is saved**. When the “Copied to clipboard” notification appears, press **`⌘V`** to paste into an app that accepts images. The original file stays in `Desktop/截屏`.
 
-macOS normally saves a screenshot as a file; adding Control copies it instead of saving it. SnapKeep provides the combined save-and-copy workflow without adding another screenshot shortcut.
+This is a **Mac / macOS 12+ utility**, not a Windows app or a new screen-capture interface. macOS takes the screenshot; SnapKeep handles copying afterward. The illustrated demo shows full-screen capture, not region selection. Other native screenshot methods work too when they save image files to the same folder.
 
 ### Features
 
@@ -151,7 +159,7 @@ macOS normally saves a screenshot as a file; adding Control copies it instead of
 1. Download the Universal DMG or ZIP from [Releases](https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest).
 2. Move `SnapKeep.app` to Applications and open it.
 3. Click **Enable / Update SnapKeep** and allow **System Events** automation.
-4. Capture with `⌘⇧4`, wait for the image to save, then paste with `⌘V`.
+4. Capture the full screen with `⌘⇧3`, wait for “Copied to clipboard,” then paste with `⌘V`.
 
 The current release is not Apple-notarized. If first launch is blocked, follow [Apple's Open Anyway instructions](https://support.apple.com/en-us/102445). No administrator password is needed for screenshot configuration.
 

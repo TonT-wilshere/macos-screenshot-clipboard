@@ -5,28 +5,32 @@ Only the maintainer needs Pillow. The shipped app has no Python dependency.
 """
 from __future__ import annotations
 
-import math
+import argparse
+import glob
 from functools import lru_cache
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "Assets"
-FONT = "/Library/Fonts/Arial Unicode.ttf"
+FONT = next(iter(glob.glob("/System/Library/AssetsV2/**/PingFang.ttc", recursive=True)), "/Library/Fonts/Arial Unicode.ttf")
 W, H = 960, 540
 NAVY, BLUE, MINT, WHITE, MUTED = "#09172F", "#235DEA", "#7DF2C8", "#F6FAFF", "#B2C8E5"
 
-@lru_cache(maxsize=64)
-def font(size: int):
-    return ImageFont.truetype(FONT, size)
+@lru_cache(maxsize=128)
+def font(size: int, symbols=False):
+    # PingFang has clearer Chinese text, but does not include the shortcut glyphs.
+    path = "/Library/Fonts/Arial Unicode.ttf" if symbols else FONT
+    return ImageFont.truetype(path, size, index=3 if "PingFang" in path else 0)
+
+def face(value, size):
+    return font(size, "⌘" in value or "⇧" in value)
 
 def txt(d, x, y, value, size=18, fill=WHITE):
-    d.text((x, y), value, font=font(size), fill=fill)
+    d.text((x, y), value, font=face(value, size), fill=fill, anchor="lt")
 
 def center(d, x, y, value, size=18, fill=WHITE):
-    face = font(size)
-    box = d.textbbox((0, 0), value, font=face)
-    d.text((x - (box[2] - box[0]) / 2, y - box[1]), value, font=face, fill=fill)
+    d.text((x, y), value, font=face(value, size), fill=fill, anchor="mt")
 
 def rr(d, box, fill, radius=16, outline=None, width=1):
     d.rounded_rectangle(box, radius, fill=fill, outline=outline, width=width)
@@ -69,84 +73,108 @@ def sample(d, box, small=False):
         rr(d, (x + 12, y + 12, x + 130, y + 38), "#FFFFFF", 10)
         txt(d, x + 20, y + 15, "Demo project", 12, "#193252")
 
+@lru_cache(maxsize=1)
+def mac_screen():
+    """One complete synthetic desktop, reused as the copied and pasted image."""
+    im = Image.new("RGB", (480, 270), "#EAF1FF")
+    d = ImageDraw.Draw(im)
+    sample(d, (0, 0, 480, 270), small=True)
+    d.rectangle((0, 0, 480, 22), fill="#D8E6FA")
+    txt(d, 12, 5, "Finder     File     Edit     View", 12, "#284766")
+    txt(d, 422, 5, "10:09", 12, "#284766")
+    rr(d, (34, 53, 323, 210), "#FFFFFF", 10)
+    rr(d, (35, 54, 322, 78), "#DCE5F1", 9)
+    for i, c in enumerate(("#FA6259", "#F5BF4F", "#5BCB7A")):
+        d.ellipse((46 + i * 16, 62, 53 + i * 16, 69), fill=c)
+    txt(d, 51, 96, "My project", 20, "#193252")
+    for row, length in enumerate((218, 178, 196, 130)):
+        rr(d, (51, 130 + row * 16, 51 + length, 136 + row * 16), "#DEE8F7", 3)
+    rr(d, (377, 65, 427, 100), "#5C9FE9", 6)
+    rr(d, (377, 59, 401, 76), "#5C9FE9", 4)
+    center(d, 403, 109, "截屏", 12, "#284766")
+    rr(d, (139, 237, 341, 266), "#DDE7F4", 9)
+    for i, color in enumerate((BLUE, "#27B99B", "#F8CB6C", "#A48BEF", "#52A6DA")):
+        rr(d, (149 + i * 38, 243, 169 + i * 38, 261), color, 5)
+    return im
+
+def screen(im, box):
+    x, y, w, h = box
+    im.paste(mac_screen().resize((w, h), Image.Resampling.LANCZOS), (x, y))
+
 def render(frame):
     im = BG.copy()
     d = ImageDraw.Draw(im)
-    # Full functionality is visible on the first frame, before the animation begins.
-    txt(d, 36, 20, "SnapKeep", 25)
-    txt(d, 190, 28, "截屏即贴", 17, MINT)
-    rr(d, (731, 20, 925, 52), "#17355A", 16)
-    center(d, 828, 27, "macOS · Free & open source", 12, MUTED)
-    center(d, W / 2, 73, "Screenshot once. Save + copy.", 33)
-    center(d, W / 2, 120, "截一次，保存和复制一起完成。", 23, MINT)
+    captured, copied, pasted = frame >= 25, frame >= 43, frame >= 65
+    txt(d, 30, 22, "SnapKeep · 截屏即贴", 21)
+    txt(d, 661, 28, "Mac / macOS 12+ · Free & open source", 13, MUTED)
+    # Literal benefit and platform remain visible even before the GIF plays.
+    center(d, W / 2, 69, "Mac 截图，截完直接粘贴。", 37)
+    center(d, W / 2, 120, "Mac screenshot → automatically copied → paste", 22, MINT)
 
-    # Left: an illustrated macOS desktop using only synthetic imagery.
-    rr(d, (36, 176, 542, 451), "#041022", 20)
-    rr(d, (30, 168, 536, 443), "#EDF3FC", 18)
-    rr(d, (31, 169, 535, 202), "#DDE7F4", 16)
-    for i, c in enumerate(("#FA6259", "#F5BF4F", "#5BCB7A")):
-        d.ellipse((46 + i * 17, 181, 54 + i * 17, 189), fill=c)
-    txt(d, 126, 176, "Your Mac / 你的 Mac", 13, "#476079")
-    sample(d, (62, 220, 252, 174))
-    txt(d, 338, 235, "Desktop / 桌面", 14, "#34506C")
-    rr(d, (353, 272, 406, 312), "#5C9FE9", 7)
-    rr(d, (353, 265, 380, 283), "#5C9FE9", 5)
-    txt(d, 417, 278, "截屏", 18, "#274766")
+    for bounds, active in [((30, 165, 304, 443), frame >= 12), ((348, 165, 612, 443), copied), ((656, 165, 930, 443), pasted)]:
+        rr(d, bounds, "#102A49", 20, MINT if active else "#315279", 2)
+    for x in (325, 634):
+        d.line((x - 10, 307, x + 10, 307), fill=MINT, width=3)
+        d.line([(x + 3, 300), (x + 10, 307), (x + 3, 314)], fill=MINT, width=3)
 
-    progress = min(1, max(0, (frame - 12) / 18))
-    if 12 <= frame < 34:
-        x2, y2 = 70 + int(232 * progress), 228 + int(154 * progress)
-        d.rectangle((70, 228, x2, y2), outline="#265DEA", width=3)
-        d.line((x2 - 8, y2, x2 + 8, y2), fill=NAVY, width=2)
-        d.line((x2, y2 - 8, x2, y2 + 8), fill=NAVY, width=2)
-    if frame >= 34:
-        sample(d, (359, 330, 93, 61), small=True)
-        txt(d, 353, 397, "Screenshot.png", 11, "#4F6782")
-    rr(d, (63, 406, 282, 435), "#D4E1F5", 12)
-    center(d, 172, 410, "⌘ ⇧ 4  →  capture / 截取", 14, "#284766")
+    center(d, 167, 184, "1 · Mac 原生全屏截屏", 18)
+    rr(d, (71, 217, 263, 255), BLUE if 12 <= frame < 25 else "#203E63", 11)
+    center(d, 167, 223, "⌘ ⇧ 3", 27)
+    screen(im, (46, 275, 242, 136))
+    # A full-screen flash, never a region-selection rectangle or crosshair.
+    if 22 <= frame <= 25:
+        flash = Image.new("RGB", (242, 136), "white")
+        original = im.crop((46, 275, 288, 411))
+        im.paste(Image.blend(original, flash, .65), (46, 275))
+    center(d, 167, 420, "Command + Shift + 3 · Full screen", 12, MUTED)
 
-    # Right: visible outcomes, ending with a paste preview.
-    rr(d, (571, 168, 929, 443), "#102A49", 20, "#315279")
-    step1 = frame >= 34
-    step2 = frame >= 47
-    step3 = frame >= 66
-    for n, yy, label, active in [(1, 188, "File saved / 图片已保存", step1), (2, 226, "Clipboard ready / 剪贴板就绪", step2)]:
-        d.ellipse((591, yy + 4, 613, yy + 26), fill=MINT if active else "#294460")
-        if active:
-            check(d, 595, yy + 8, NAVY, .7)
-        else:
-            txt(d, 598, yy + 4, str(n), 12, MUTED)
-        txt(d, 626, yy + 2, label, 17, WHITE if active else MUTED)
-    if step2:
-        rr(d, (586, 272, 914, 312), "#DBFAEF", 12)
-        txt(d, 600, 281, "✓ 已复制到剪贴板 · Copied", 15, "#076B57")
-    if step3:
-        sample(d, (592, 325, 117, 91), small=True)
-        txt(d, 728, 338, "⌘ V", 27, MINT)
-        txt(d, 728, 380, "Paste / 直接粘贴", 15, WHITE)
+    center(d, 480, 184, "2 · 自动复制图片", 18)
+    center(d, 480, 222, "SnapKeep · after saving", 14, MUTED)
+    rr(d, (429, 271, 531, 360), "#E8F1FF", 13)
+    rr(d, (452, 263, 508, 281), "#B7CDEA", 7)
+    if copied:
+        screen(im, (438, 289, 84, 47))
+        rr(d, (366, 373, 594, 406), "#DDFBF1", 10)
+        center(d, 480, 382, "已复制到剪贴板 · Copied", 14, "#087E65")
     else:
-        txt(d, 606, 348, "No extra shortcut.", 19)
-        txt(d, 606, 384, "快捷键照旧，少一步操作。", 17, MUTED)
+        center(d, 480, 309, "IMAGE", 16, "#476079")
+        center(d, 480, 382, "保存后，自动复制图片本身", 14, MUTED)
+    center(d, 480, 420, "No opening files. No manual copy.", 12, MUTED)
+
+    center(d, 793, 184, "3 · 粘贴到聊天或文档", 18)
+    rr(d, (734, 217, 852, 255), BLUE if 62 <= frame < 72 else "#203E63", 11)
+    center(d, 793, 223, "⌘ V", 27)
+    rr(d, (674, 272, 912, 411), "#E8F1FF", 12)
+    txt(d, 688, 283, "Chat / 聊天", 12, "#476079")
+    if pasted:
+        screen(im, (704, 300, 192, 108))
+    else:
+        center(d, 793, 337, "Paste here / 粘贴到这里", 14, "#6B82A0")
+    center(d, 793, 420, "Command + V · Paste the image", 12, MUTED)
 
     if frame < 12:
-        caption = "Keep the file. Paste it anywhere. / 保留文件，也能直接粘贴"
-    elif frame < 34:
-        caption = "1  Capture with your usual shortcut / 使用熟悉的截屏快捷键"
-    elif frame < 47:
-        caption = "2  Saved automatically to Desktop/截屏 / 自动保存到桌面截屏文件夹"
-    elif frame < 66:
-        caption = "3  Image copied + a quiet banner / 自动复制图片并轻提示"
+        caption = "苹果负责截屏，SnapKeep 负责自动复制。"
+    elif frame < 25:
+        caption = "按 ⌘⇧3：使用 Mac 系统全屏截屏，不用框选。"
+    elif not copied:
+        caption = "系统先保存截图文件，再触发图片复制。"
+    elif not pasted:
+        caption = "图片已自动复制到剪贴板，不打开查看器。"
     else:
-        caption = "4  Paste into a chat or bug report / 粘贴到聊天、笔记或问题反馈"
-    center(d, W / 2, 468, caption, 17)
-    center(d, W / 2, 503, "Local only · Zero runtime dependencies · Illustrated workflow / 演示示意", 12, MUTED)
+        caption = "按 ⌘V 粘贴图片；原图仍保留在 桌面/截屏。"
+    center(d, W / 2, 467, caption, 19)
+    center(d, W / 2, 507, "File kept in Desktop/截屏 · Copy starts after saving · Illustrated workflow / 流程示意，非录屏", 12, MUTED)
     return im
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--demo-only", action="store_true", help="Keep existing app icons; regenerate only the workflow assets")
+    args = parser.parse_args()
     ASSETS.mkdir(exist_ok=True)
-    large_icon = icon()
-    large_icon.save(ASSETS / "AppIcon.png")
-    large_icon.save(ASSETS / "AppIcon.icns", sizes=[(16,16), (32,32), (64,64), (128,128), (256,256), (512,512), (1024,1024)])
+    if not args.demo_only:
+        large_icon = icon()
+        large_icon.save(ASSETS / "AppIcon.png")
+        large_icon.save(ASSETS / "AppIcon.icns", sizes=[(16,16), (32,32), (64,64), (128,128), (256,256), (512,512), (1024,1024)])
     frames = [render(i) for i in range(100)]
     atlas = Image.new("RGB", (240 * 10, 135))
     for i in range(10):

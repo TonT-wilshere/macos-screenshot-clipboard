@@ -1,8 +1,8 @@
 # SnapKeep / 截屏即贴
 
-> macOS screenshot and clipboard automation: a local app plus an installable Agent Skill. Save screenshots to a desktop folder and copy the image after saving, using the usual screenshot shortcuts.
+> For Mac / macOS: press Command+Shift+3 for a native full-screen screenshot. SnapKeep automatically copies the image after the file is saved; press Command+V to paste. The file stays in Desktop/截屏. Includes an installable Agent Skill for setup and troubleshooting, not a new capture interface.
 >
-> Mac 截屏保存与剪贴板自动化：本机应用 + 可安装的 Agent Skill，处理“截屏同时保存和复制”“截图自动复制剪贴板”“桌面截屏自动归档”。
+> 仅适用于 Mac / macOS：按 ⌘⇧3 使用系统全屏截屏，文件保存后自动把图片复制到剪贴板，再按 ⌘V 粘贴；图片保留在桌面/截屏。不提供框选界面。附带 Agent Skill，帮助配置“截屏同时保存和复制”“截图自动复制剪贴板”。
 
 Repository: https://github.com/TonT-wilshere/macos-screenshot-clipboard
 Releases: https://github.com/TonT-wilshere/macos-screenshot-clipboard/releases/latest
